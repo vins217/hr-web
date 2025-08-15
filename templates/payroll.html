@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block content %}
+<h3>Compute Payroll</h3>
+<form method="post" class="row g-3">
+  <div class="col-md-3">
+    <select class="form-select" name="employee_id" required>
+      <option value="">Employee</option>
+      {% for e in employees %}
+        <option value="{{ e.id }}">{{ e.id }} - {{ e.full_name() }}</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="col-md-3"><input class="form-control" name="start" placeholder="Start YYYY-MM-DD" required></div>
+  <div class="col-md-3"><input class="form-control" name="end" placeholder="End YYYY-MM-DD" required></div>
+  <div class="col-md-3"><button class="btn btn-success w-100">Compute & Save</button></div>
+</form>
+{% if result %}
+<div class="card my-3">
+  <div class="card-body">
+    <h5 class="card-title">Result</h5>
+    <div>Days worked: <b>{{ result.days }}</b>, Tardiness: <b>{{ result.tardy_minutes }}</b> min</div>
+    <div>Gross: PHP {{ "{:,.2f}".format(result.gross) }}</div>
+    <div>SSS: PHP {{ "{:,.2f}".format(result.sss) }}, PhilHealth: PHP {{ "{:,.2f}".format(result.philhealth) }}, Pag-IBIG: PHP {{ "{:,.2f}".format(result.pagibig) }}</div>
+    <div>Tax withheld: PHP {{ "{:,.2f}".format(result.tax) }}</div>
+    <div><b>Net: PHP {{ "{:,.2f}".format(result.net) }}</b></div>
+  </div>
+</div>
+{% endif %}
+<hr>
+<h3>Payroll History</h3>
+<form class="row g-3" method="get">
+  <div class="col-md-3"><input class="form-control" name="emp" placeholder="Filter by Employee ID"></div>
+  <div class="col-md-2"><button class="btn btn-outline-secondary w-100">Filter</button></div>
+</form>
+<table class="table table-sm table-striped align-middle mt-3">
+  <thead><tr><th>Emp</th><th>Start</th><th>End</th><th>Gross</th><th>Net</th></tr></thead>
+  <tbody>
+  {% for p in history %}
+    <tr>
+      <td>{{ p.employee_id }}</td><td>{{ p.period_start }}</td><td>{{ p.period_end }}</td>
+      <td>{{ "{:,.2f}".format(p.gross_pay) }}</td><td>{{ "{:,.2f}".format(p.net_pay) }}</td>
+    </tr>
+  {% else %}
+    <tr><td colspan="5" class="text-muted">No payroll yet.</td></tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

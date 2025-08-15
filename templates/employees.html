@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+<h3>Add Employee</h3>
+<form method="post" class="row g-3">
+  <div class="col-md-3"><input class="form-control" name="first_name" placeholder="First name" required></div>
+  <div class="col-md-3"><input class="form-control" name="last_name" placeholder="Last name" required></div>
+  <div class="col-md-3"><input class="form-control" name="monthly_salary" placeholder="Monthly salary (PHP)" type="number" step="0.01" required></div>
+  <div class="col-md-3"><input class="form-control" name="tin" placeholder="TIN"></div>
+  <div class="col-md-3"><input class="form-control" name="sss" placeholder="SSS"></div>
+  <div class="col-md-3"><input class="form-control" name="philhealth" placeholder="PhilHealth"></div>
+  <div class="col-md-3"><input class="form-control" name="pagibig" placeholder="Pag-IBIG"></div>
+  <div class="col-md-3"><button class="btn btn-primary w-100">Save</button></div>
+</form>
+<hr>
+<h3>Employees</h3>
+<table class="table table-sm table-striped align-middle">
+  <thead><tr><th>ID</th><th>Name</th><th>Monthly Salary</th><th>SSS</th><th>PhilHealth</th><th>Pag-IBIG</th></tr></thead>
+  <tbody>
+  {% for e in employees %}
+    <tr>
+      <td>{{ e.id }}</td>
+      <td>{{ e.full_name() }}</td>
+      <td>{{ "{:,.2f}".format(e.monthly_salary) }}</td>
+      <td>{{ e.sss or "-" }}</td>
+      <td>{{ e.philhealth or "-" }}</td>
+      <td>{{ e.pagibig or "-" }}</td>
+    </tr>
+  {% else %}
+    <tr><td colspan="6" class="text-muted">No employees yet.</td></tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

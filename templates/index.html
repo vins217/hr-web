@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="p-4 bg-light rounded-3">
+  <h1 class="display-6">HR System (Web Demo)</h1>
+  <p class="lead mb-1">Employees → Attendance → Payroll</p>
+  <p class="text-muted">Demo rates only (SSS 4.5%, PhilHealth 2.5%, Pag-IBIG 1%, WT 10%).</p>
+  <a class="btn btn-primary" href="{{ url_for('employees') }}">Get started</a>
+</div>
+{% endblock %}
